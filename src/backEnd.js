@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors"
+import chalk from "chalk";
 
 const app = express()
 app.use(cors())
@@ -22,4 +23,18 @@ app.get('/holidays', (req, res) => {
     res.send(holidays)
 } )
 
-app.listen(4000)
+  app.get( '/is-today-holiday', ( req,res ) => {
+    const hoje = new Date().toLocaleDateString('en-us')
+
+    let feriado = holidays.find( holiday => holiday.date === hoje )
+    if(feriado){
+      res.send(`Hoje ta liberado, Feriado de ${feriado.name}`)
+    }
+    else{
+      res.send('Bora Trabalhar ! Pra Cima !')
+    }
+  } )
+
+app.listen(5000, () => {
+  console.log(chalk.bold.green(`Servidor rodandoo....`))
+})
